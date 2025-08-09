@@ -119,3 +119,36 @@ main {
   */
   z-index: 998;
 }
+#shuffle-box{
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 60px;
+}
+#shuffle-button{
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  padding: .3rem 1.5rem;
+  grid-column: 3;
+  cursor: pointer;
+  background: linear-gradient(to right, pink, blue);
+  -webkit-background-clip: text; /* Safari/Chrome */
+  background-position: 50%;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes lettergradient {
+  0% {
+    font-size: 1.5rem;
+  }
+  50% {
+    font-size: 1.7rem;
+  }
+  100% {
+    background-position: 1.5rem;
+  }
+
+}
+#shuffle-button:hover{
+  animation: lettergradient 1s infinite;
+}

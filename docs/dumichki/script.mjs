@@ -143,6 +143,7 @@ class Wheel {
 
     circleCenter.innerHTML = '';
     this.letterElements = [];
+    this.letters = letters;
 
     for(let i = 0; i < letters.length; i ++) { 
       this.drawLetter(letters[i], i, letters.length);
@@ -228,6 +229,17 @@ class Level {
     }
   }
 
+  shuffleLetters() {
+    const newLetters = [];
+    const old = [...game.currentLevel.wheel.letters];
+    while(old.length > 0) {
+      const randomIndex = Math.floor(Math.random() * old.length);
+      newLetters.push(old[randomIndex]);
+      old.splice(randomIndex, 1);
+    }
+    this.wheel = new Wheel(newLetters);
+  }
+
 }
 
 class Game {
@@ -311,4 +323,6 @@ window.addEventListener('touchend', (e) => {
 });
 window.addEventListener('touchmove', handleTouchMove);
 window.addEventListener('touchstart', handleTouchStart, { passive: false });
+
+document.getElementById('shuffle-button').addEventListener('click', game.currentLevel.shuffleLetters);
 
