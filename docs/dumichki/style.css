@@ -1,0 +1,114 @@
+:root{
+  --wheel-dimentions: 500px;
+  --inner-wheel-dimentions: 250px;
+  --game-max-width: 700px;
+}
+main {
+  width: 100%;
+  max-width: var(--game-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+#win {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  font-size: 50pt;
+  padding: 70px;
+  text-align: center;
+  background-image: url('./fireworks.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+}
+#words {
+  width: 100%;
+  display: flex;
+}
+#out {
+  font-size: 25pt;
+  margin: 40px auto;
+  text-align: center;
+  border-radius: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+#wheel {
+  width: 100%;
+  max-width: var(--wheel-dimentions);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.circle {
+  position: relative;
+  display: flex;
+  width: 100%;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+  border-radius: 50%;
+}
+
+.circle-inner{
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  width: 100%;
+  max-width: var(--inner-wheel-dimentions);
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.circle-center{
+  position: relative;
+  width: 1px;
+  height: 1px;
+  background-color: black;
+}
+.letter {
+  font-size: 45pt;
+  z-index: 999;
+  position: absolute;
+  display: grid;
+  transform: translate(-50%, -50%);
+  place-items: center;
+  border-radius: 50%;
+  background-color: navy;
+  color: white;
+  user-select: none;
+  cursor: pointer;
+}
+.letter:hover {
+  background-color: darkblue;
+}
+
+@keyframes rotate {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+.line{
+  width: 5px;
+  background-color: red;
+  position: fixed;
+  /*
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  animation: rotate 3s infinite !important;
+  */
+  z-index: 998;
+}
