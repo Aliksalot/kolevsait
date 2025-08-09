@@ -12,6 +12,8 @@ const letterR = Rs + ((Rb - Rs) / 2);
 
 const circleCenter = document.querySelector(".circle-center");
 
+let lastTouchTarget = null;
+
 const win = () => {
   document.getElementById('win').style.display = 'block';
 }
@@ -87,6 +89,7 @@ const drawMouseLine  = (event) => {
 }
 
 const disableWritingMode = () => {
+  console.log("touchend");
   game.currentLevel.words.tryWord(game.writtenLetters.toString().replaceAll(",",""));
   console.log(game.writtenLetters.toString().replaceAll(",",""));
   game.writingMode = false;
@@ -115,6 +118,7 @@ class Letter {
     el.classList.add("letter");
 
     el.addEventListener("mouseover", letterHovered);
+    el.addEventListener("touchenter", letterHovered)
     el.addEventListener("mousedown", letterClicked);
 
     this.htmlElement = el;
@@ -252,9 +256,8 @@ class Game {
     const stateFromLocal = localStorage.getItem('gamestate');
     if(!stateFromLocal) return;
     console.log("Loading from local...");
-    if(levels !== stateFromLocal.levels) {
+    if(this.levels !== stateFromLocal.levels) {
       localStorage.removeItem('game');
-      window.location.reload();
     };
 
     const game = JSON.parse(stateFromLocal);
@@ -283,6 +286,25 @@ class Game {
 game = new Game(levels, 0);
 game.loadFromLocal();
 
+const handleFingerMove = (event) => {
+  console.log("Call");
+  if(event.pointerType != 'touch') return;
+  console.log("passed touch check");
+
+  event.preventDefault();
+
+  const touchTarget = document.elementFromPoint(event.clientX, event.clientY);
+
+  if(touchTarget && touchTarget !== lastTouchTarget) {
+    touchTarget.dispatchEvent(new Event("touchenter"));
+    lastTouchTarget = touchTarget;
+  }
+}
+
 window.addEventListener('mousemove', drawMouseLine);
+window.addEventListener('pointermove', handleFingerMove);
+window.addEventListener('pointermove', drawMouseLine);
 window.addEventListener('mouseup', disableWritingMode);
+window.addEventListener('touchend', disableWritingMode);
+window.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
 
