@@ -1,5 +1,7 @@
 import levels from './levels.json' with {type: 'json'}
 
+console.log(levels);
+
 let game;
 
 const Rs = 250;
@@ -170,13 +172,12 @@ class Words {
 
   constructor(wordList, words) { 
     if(words){
-      console.log("There are words", words);
       this.wordList = wordList;
       this.wordsContainer = document.getElementById('words');
       this.wordsContainer.innerHTML = '';
       this.completedWords = words.completedWords;
       for(const word of wordList) {
-        if(words.completedWords.includes(wordList.indexOf(word))){
+        if(words.completedWords.includes(word)){
           this.wordsContainer.appendChild(createWordField(word.length, wordList.indexOf(word), word));
         }else{
           this.wordsContainer.appendChild(createWordField(word.length, wordList.indexOf(word)));
@@ -186,7 +187,6 @@ class Words {
     }
 
     this.wordList = wordList;
-    console.log(wordList);
     this.wordsContainer = document.getElementById('words');
     this.wordsContainer.innerHTML = '';
     this.completedWords = [];
@@ -205,11 +205,11 @@ class Words {
   tryWord(word) {
 
     const wordIndex = this.wordList.indexOf(word);
-    console.log("trying", word, "index:", wordIndex);
-    if(wordIndex >= 0) {
+    if(wordIndex >= 0 && !this.completedWords.includes(word)) {
+      console.log("trying", word, "index:", wordIndex);
       const field = document.getElementById(`word-${wordIndex}`);
       field.value = word;
-      this.completedWords.push(wordIndex);
+      this.completedWords.push(word);
       this.checkLevelCompletion();
     }
 
@@ -252,6 +252,10 @@ class Game {
     const stateFromLocal = localStorage.getItem('gamestate');
     if(!stateFromLocal) return;
     console.log("Loading from local...");
+    if(levels !== stateFromLocal.levels) {
+      localStorage.removeItem('game');
+      window.location.reload();
+    };
 
     const game = JSON.parse(stateFromLocal);
 

@@ -2,7 +2,6 @@ import dumi_json from './dumi.json' with {type: 'json'};
 import fs from 'fs';
 
 const { dumi } = dumi_json;
-console.log(dumi);
 
 const five_letters = dumi.filter((word) => word.length === 5);
 
@@ -40,9 +39,27 @@ for(let i = 0; i < 10; i ++) {
     if(is_match) {
       final_words.push(word);
     }
+    final_words.filter((word) => !!word);
   }
 
-  levels.push(new Level(final_words, target_word.split('')));
+  const indexes = [];
+  const new_final_words = [];
+  for(let i = 0; i < 8; i ++) {
+    indexes.push(i);
+  }
+  
+  while(indexes.length) {
+    console.log(indexes);
+    const index = Math.floor(Math.random() * indexes.length);
+    new_final_words.push(final_words[indexes[index]]);
+    indexes.splice(index, 1);
+  }
+
+  while(new_final_words.length > 8) {
+    new_final_words.pop();
+  }
+
+  levels.push(new Level(new_final_words, target_word.split('')));
 }
 
 fs.writeFileSync('./levels.json', JSON.stringify(levels));
