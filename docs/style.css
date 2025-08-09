@@ -1,0 +1,53 @@
+.header-background{
+  width: 100%;
+  position: fixed;
+  filter: blur(7px);
+  background-image: url('./kys.jpg');
+  background-position: center;
+  background-size: cover;
+  height: 60px;
+  padding: 2rem 0;
+}
+header{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  padding: 2rem 0;
+  z-index: 0;
+}
+.site-link {
+  z-index: 1;
+  font-size: 3rem;
+  padding: 2rem 0;
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, .3);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes rotate{ 
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.site-link:hover > div{
+  animation: rotate 1s infinite;
+}
+#gift{ 
+  display: none;
+  position: fixed;
+  width: 200px;
+  height: 400px;
+}
+#game-link {
+  font-size: 3rem;
+}
+#game-link:hover + #gift {
+  display: block;
+}
