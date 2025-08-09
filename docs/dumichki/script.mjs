@@ -1,7 +1,5 @@
 import levels from './levels.json' with {type: 'json'}
 
-console.log(levels);
-
 let game;
 
 const Rs = 250;
@@ -25,7 +23,6 @@ class Line {
   }
 
   constructor (x1, y1, x2, y2) {
-    //console.log(`Creating line [${x1}, ${y1}]-[${x2}, ${y2}]`);
     const line = document.createElement('div');
     line.classList.add('line');
 
@@ -89,9 +86,7 @@ const drawMouseLine  = (event) => {
 }
 
 const disableWritingMode = () => {
-  console.log("touchend");
   game.currentLevel.words.tryWord(game.writtenLetters.toString().replaceAll(",",""));
-  console.log(game.writtenLetters.toString().replaceAll(",",""));
   game.writingMode = false;
   game.writtenLetters = [];
   game.writtenLetterIds = [];
@@ -118,7 +113,6 @@ class Letter {
     el.classList.add("letter");
 
     el.addEventListener("mouseover", letterHovered);
-    el.addEventListener("touchenter", letterHovered)
     el.addEventListener("mousedown", letterClicked);
 
     this.htmlElement = el;
@@ -154,7 +148,6 @@ class Wheel {
       this.drawLetter(letters[i], i, letters.length);
     }
 
-    console.log(this.letterElements);
   }
 
 }
@@ -210,7 +203,6 @@ class Words {
 
     const wordIndex = this.wordList.indexOf(word);
     if(wordIndex >= 0 && !this.completedWords.includes(word)) {
-      console.log("trying", word, "index:", wordIndex);
       const field = document.getElementById(`word-${wordIndex}`);
       field.value = word;
       this.completedWords.push(word);
@@ -255,7 +247,6 @@ class Game {
   loadFromLocal() {
     const stateFromLocal = localStorage.getItem('gamestate');
     if(!stateFromLocal) return;
-    console.log("Loading from local...");
     if(this.levels !== stateFromLocal.levels) {
       localStorage.removeItem('game');
     };
@@ -286,25 +277,38 @@ class Game {
 game = new Game(levels, 0);
 game.loadFromLocal();
 
-const handleFingerMove = (event) => {
-  console.log("Call");
-  if(event.pointerType != 'touch') return;
-  console.log("passed touch check");
+let currentHoveredLetter = null;
 
+const handleTouchStart = (event) => {
   event.preventDefault();
+  const target = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY);
+  if(target.classList.contains("letter")) {
+    currentHoveredLetter = target;
+    target.classList.add("hover");
+    letterClicked({ ...event, target });
+  }else{
+    currentHoveredLetter.classList.remove("hover");
+  }
 
-  const touchTarget = document.elementFromPoint(event.clientX, event.clientY);
+}
 
-  if(touchTarget && touchTarget !== lastTouchTarget) {
-    touchTarget.dispatchEvent(new Event("touchenter"));
-    lastTouchTarget = touchTarget;
+const handleTouchMove = (event) => {
+  const target = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY);
+  if(target.classList.contains("letter")) {
+    currentHoveredLetter = target;
+    target.classList.add("hover");
+    letterHovered({ ...event, target });
+  }else{
+    currentHoveredLetter.classList.remove("hover");
   }
 }
 
 window.addEventListener('mousemove', drawMouseLine);
-window.addEventListener('pointermove', handleFingerMove);
-window.addEventListener('pointermove', drawMouseLine);
 window.addEventListener('mouseup', disableWritingMode);
-window.addEventListener('touchend', disableWritingMode);
-window.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+window.addEventListener('touchend', (e) => {
+  currentHoveredLetter.classList.remove('hover');
+  disableWritingMode(e);
+});
+window.addEventListener('touchmove', handleTouchMove);
+window.addEventListener('touchstart', handleTouchStart, { passive: false });
 

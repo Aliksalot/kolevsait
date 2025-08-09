@@ -92,7 +92,10 @@ main {
   cursor: pointer;
 }
 .letter:hover {
-  background-color: lightcyan;
+  background-color: blue;
+}
+.hover {
+  background-color: blue;
 }
 
 @keyframes rotate {
