@@ -2,8 +2,8 @@ import levels from './levels.json' with {type: 'json'}
 
 let game;
 
-const Rs = 250;
-const Rb = 500;
+const Rs = 500;
+const Rb = 1000;
 const letterSize = 100;
 //375
 const letterR = Rs + ((Rb - Rs) / 2);
@@ -107,8 +107,6 @@ class Letter {
 
     const el = document.createElement("div");
 
-    el.style.width = letterSize;
-    el.style.height = letterSize;
     el.innerHTML = letter;
     el.classList.add("letter");
 
@@ -156,7 +154,6 @@ class Wheel {
 const createWordField = (wordLength, wordId, word) => {
   const field = document.createElement('input');
   field.classList.add('out');
-  field.style.minWidth = 60 * wordLength
   field.disabled = true;
   field.placeholder = Array.from({length: wordLength}).fill("_ ").toString().replaceAll(",","");
   field.id = `word-${wordId}`;
