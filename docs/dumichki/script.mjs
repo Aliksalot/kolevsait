@@ -1,4 +1,6 @@
-import levels from './levels.json' with {type: 'json'}
+import game_data from './levels.json' with {type: 'json'}
+
+const { levels, createdAt } = game_data;
 
 let game;
 
@@ -251,17 +253,24 @@ class Game {
     this.writtenLetterIds = [];
     this.lines = [];
     this.mouseFollowLine = null;
+    this.updateLevelCounter();
+    console.log(this.currentLevel.words);
+    console.log(this.currentLevel.wheel);
   }
 
   loadFromLocal() {
     const stateFromLocal = localStorage.getItem('gamestate');
-    if(!stateFromLocal) return;
+    if(!stateFromLocal) {
+      this.lastUpdate = Date.now();
+      return;
+    }
     if(this.levels !== stateFromLocal.levels) {
       localStorage.removeItem('game');
     };
 
     const game = JSON.parse(stateFromLocal);
 
+    this.lastUpdate = game.lastUpdate;
     this.levels = game.levels;
     this.currentLevel = new Level(game.currentLevelNumber, game.currentLevel);
     this.currentLevelNumber = game.currentLevelNumber
@@ -280,11 +289,21 @@ class Game {
   nextLevel() {
     this.currentLevelNumber += 1;
     this.currentLevel = new Level(this.currentLevelNumber);
+    this.updateLevelCounter();
+  }
+
+  updateLevelCounter() {
+    document.getElementById('level-count').innerText = this.currentLevelNumber + 1;
   }
 }
 
 game = new Game(levels, 0);
 game.loadFromLocal();
+
+if(!game.lastUpdate || game.lastUpdate < createdAt) {
+  localStorage.removeItem('gamestate');
+  window.location.reload();
+}
 
 let currentHoveredLetter = null;
 

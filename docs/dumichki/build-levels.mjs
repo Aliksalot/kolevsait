@@ -65,4 +65,9 @@ while(levels.length < LEVEL_COUNT) {
   }
 }
 
-fs.writeFileSync('./levels.json', JSON.stringify(levels));
+const final_object = {
+  levels,
+  createdAt: Date.now()
+}
+
+fs.writeFileSync('./levels.json', JSON.stringify(final_object));
