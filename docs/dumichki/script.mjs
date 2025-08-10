@@ -12,8 +12,6 @@ const letterR = Rs + ((Rb - Rs) / 2);
 
 const circleCenter = document.querySelector(".circle-center");
 
-let lastTouchTarget = null;
-
 const win = () => {
   document.getElementById('win').style.display = 'block';
 }
@@ -287,6 +285,14 @@ class Game {
   }
 
   nextLevel() {
+    if(this.currentLevelNumber >= 999) {
+      win();
+      setTimeout(() => {
+        localStorage.removeItem('gamestate');
+        window.location.reload();
+      }, 10000);
+      return;
+    }
     this.currentLevelNumber += 1;
     this.currentLevel = new Level(this.currentLevelNumber);
     this.updateLevelCounter();
