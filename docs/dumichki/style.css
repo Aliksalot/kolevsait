@@ -1,7 +1,7 @@
 :root{
-  --wheel-dimentions: 500px;
-  --inner-wheel-dimentions: 250px;
-  --game-max-width: 700px;
+  --wheel-dimentions: 800px;
+  --inner-wheel-dimentions: 400px;
+  --game-max-width: 1600px;
 }
 main {
   width: 100%;
@@ -10,6 +10,15 @@ main {
   flex-direction: column;
   align-items: center;
   position: relative;
+}
+.back {
+  font-size: 3rem;
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}
+h1{
+  font-size: 4rem;
 }
 #win {
   display: none;
@@ -30,18 +39,27 @@ main {
 #words {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  max-height: 310px;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 6px;
 }
 .out {
-  font-size: 25pt;
+  font-size: 2.5rem;
   margin: 3px;
+  width: min-content;
   text-align: center;
   border-radius: 10px;
   padding-top: 12px;
   padding-bottom: 12px;
+}
+@media (max-width: 1200px) {
+  #words {
+    flex-direction: column;
+    align-items: center;
+  }
+  .out {
+    font-size: 4rem;
+  }
 }
 #wheel {
   width: 100%;
@@ -54,7 +72,7 @@ main {
   position: relative;
   display: flex;
   width: 100%;
-  aspect-ratio: 1/1;
+  height: var(--wheel-dimentions);
   justify-content: center;
   align-items: center;
   background-color: lightblue;
@@ -67,7 +85,7 @@ main {
   display: flex;
   width: 100%;
   max-width: var(--inner-wheel-dimentions);
-  aspect-ratio: 1/1;
+  height: var(--inner-wheel-dimentions);
   justify-content: center;
   align-items: center;
   position: relative;
@@ -79,7 +97,10 @@ main {
   background-color: black;
 }
 .letter {
-  font-size: 45pt;
+  font-size: 9rem;
+  padding: .3rem .3rem;
+  width: 150px;
+  aspect-ratio: 1/1;
   z-index: 999;
   position: absolute;
   display: grid;
@@ -124,9 +145,10 @@ main {
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr;
   height: 60px;
+  margin-top: 2rem;
 }
 #shuffle-button{
-  font-size: 1.5rem;
+  font-size: 3.5rem;
   border-radius: 1rem;
   padding: .3rem 1.5rem;
   grid-column: 3;
@@ -139,13 +161,13 @@ main {
 }
 @keyframes lettergradient {
   0% {
-    font-size: 1.5rem;
+    font-size: 3.5rem;
   }
   50% {
-    font-size: 1.7rem;
+    font-size: 4rem;
   }
   100% {
-    background-position: 1.5rem;
+    background-position: 3.5rem;
   }
 
 }

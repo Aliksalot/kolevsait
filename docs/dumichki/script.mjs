@@ -2,9 +2,9 @@ import levels from './levels.json' with {type: 'json'}
 
 let game;
 
-const Rs = 250;
-const Rb = 500;
-const letterSize = 100;
+const Rs = 400;
+const Rb = 800;
+const letterSize = 150;
 //375
 const letterR = Rs + ((Rb - Rs) / 2);
 
@@ -107,8 +107,6 @@ class Letter {
 
     const el = document.createElement("div");
 
-    el.style.width = letterSize;
-    el.style.height = letterSize;
     el.innerHTML = letter;
     el.classList.add("letter");
 
@@ -156,7 +154,6 @@ class Wheel {
 const createWordField = (wordLength, wordId, word) => {
   const field = document.createElement('input');
   field.classList.add('out');
-  field.style.minWidth = 60 * wordLength
   field.disabled = true;
   field.placeholder = Array.from({length: wordLength}).fill("_ ").toString().replaceAll(",","");
   field.id = `word-${wordId}`;
@@ -292,9 +289,9 @@ game.loadFromLocal();
 let currentHoveredLetter = null;
 
 const handleTouchStart = (event) => {
-  event.preventDefault();
   const target = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY);
   if(target.classList.contains("letter")) {
+    event.preventDefault();
     currentHoveredLetter = target;
     target.classList.add("hover");
     letterClicked({ ...event, target });
