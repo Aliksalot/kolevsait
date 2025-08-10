@@ -2,9 +2,9 @@ import levels from './levels.json' with {type: 'json'}
 
 let game;
 
-const Rs = 500;
-const Rb = 1000;
-const letterSize = 100;
+const Rs = 400;
+const Rb = 800;
+const letterSize = 150;
 //375
 const letterR = Rs + ((Rb - Rs) / 2);
 
@@ -289,9 +289,9 @@ game.loadFromLocal();
 let currentHoveredLetter = null;
 
 const handleTouchStart = (event) => {
-  event.preventDefault();
   const target = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY);
   if(target.classList.contains("letter")) {
+    event.preventDefault();
     currentHoveredLetter = target;
     target.classList.add("hover");
     letterClicked({ ...event, target });
